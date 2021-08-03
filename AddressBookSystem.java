@@ -1,17 +1,20 @@
 package addressBook;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class AddressBookSystem {
     static Scanner sc = new Scanner(System.in);
-    private List<Person> personList = new ArrayList<>();
+    private ArrayList<Person> personList = null;
+    private Map<String,ArrayList<Person>> contactBook = new HashMap<>();
+    public String city;
+
     /*
      * UC1 Taking User Input for person detail
      * UC2 this method adds object person and its element to ArrayList
      */
     private void addNewContact() {
+        System.out.println("Which City You Want To Add");
+        city = sc.next();
         Person person = new Person();
         System.out.println("Enter First Name");
         String firstName = sc.next();
@@ -38,19 +41,28 @@ public class AddressBookSystem {
         String emailId = sc.next();
         person.setEmailId(emailId);
 
-        personList.add(person);
+        if (contactBook.containsKey(city)) {
+            contactBook.get(city).add(person);
+        }
+        else {
+            personList = new ArrayList<>();
+            personList.add(person);
+            contactBook.put(city, personList);
+        }
     }
     /*
      * UC3
      * Ability to edit existing contact of person using there first name
      */
     private void editContact(){
+        System.out.println("Enter City to which you want edit person details");
+        city=sc.next();
         String enterName;
-        System.out.println("Enter First Name To  edit Your Contact Details");
+        System.out.println("Enter First Name To edit Your Contact Details");
         enterName=sc.next();
-        for(int i=0;i <= personList.size();i++){
-            if(personList.get(i).getFirstName().equals(enterName));{
-
+        for(int i=0;i <= contactBook.get(city).size();i++){
+            if(contactBook.get(city).get(i).equals(enterName));
+            {
                 System.out.println("Person Found, Enter option that you want to edit");
                 System.out.println("Enter\n1.First Name\n2.Last Name\n3.Address\n4.city\n5.State\n6.Pin Code\n7.Phone Number\n8.EmailId");
                 int check;
@@ -58,35 +70,35 @@ public class AddressBookSystem {
                 switch (check){
                     case 1:
                         System.out.println("Enter new first name");
-                        personList.get(i).setFirstName(sc.next());
+                        contactBook.get(city).get(i).setFirstName(sc.next());
                         break;
                     case 2:
                         System.out.println("Enter new last name");
-                        personList.get(i).setLastName(sc.next());
+                        contactBook.get(city).get(i).setLastName(sc.next());
                         break;
                     case 3:
                         System.out.println("Enter new Address");
-                        personList.get(i).setAddress(sc.next());
+                        contactBook.get(city).get(i).setAddress(sc.next());
                         break;
                     case 4:
                         System.out.println("Enter new city");
-                        personList.get(i).setCity(sc.next());
+                        contactBook.get(city).get(i).setCity(sc.next());
                         break;
                     case 5:
                         System.out.println("Enter new state");
-                        personList.get(i).setState(sc.next());
+                        contactBook.get(city).get(i).setState(sc.next());
                         break;
                     case 6:
                         System.out.println("Enter new zip");
-                        personList.get(i).setPinCode(sc.next());
+                        contactBook.get(city).get(i).setPinCode(sc.next());
                         break;
                     case 7:
                         System.out.println("Enter new phone number");
-                        personList.get(i).setPhoneNumber(sc.next());
+                        contactBook.get(city).get(i).setPhoneNumber(sc.next());
                         break;
                     case 8:
                         System.out.println("Enter new email");
-                        personList.get(i).setEmailId(sc.next());
+                        contactBook.get(city).get(i).setEmailId(sc.next());
                         break;
                     default :
                         System.out.println("Invalid Entry");
@@ -102,10 +114,10 @@ public class AddressBookSystem {
         String enteredName;
         System.out.println("Enter First name of contact to delete it ");
         enteredName=sc.next();
-        for(int i=0;i<personList.size();i++)
+        for(int i=0;i<contactBook.get(city).size();i++)
         {
-            if(personList.get(i).getFirstName().equals(enteredName))
-                personList.remove(i);
+            if(contactBook.get(city).get(i).getFirstName().equals(enteredName))
+                contactBook.get(city).remove(i);
         }
         System.out.println("Person removed from Address book");
     }
@@ -114,7 +126,7 @@ public class AddressBookSystem {
      * Added show method to see multiple person contact list
      */
     public void showPerson(){
-        System.out.println(personList);
+        System.out.println(contactBook);
     }
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program");
