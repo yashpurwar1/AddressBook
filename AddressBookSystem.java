@@ -1,6 +1,8 @@
 package addressBook;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AddressBookSystem {
     static Scanner sc = new Scanner(System.in);
@@ -127,13 +129,28 @@ public class AddressBookSystem {
      */
     public void showPerson(){
         System.out.println(contactBook);
+    }/**
+     *UC8 : Ability to search person across all cities
+     * And here name of cities are stored as key of hashmap
+     * for loop iterates over all key
+     * use of stream to search person by using filter method of stream
+     */
+    private void searchPersonInCity(){
+        System.out.println("Enter name to in all book");
+        String nameToSearch =sc.next();
+        for(String key : contactBook.keySet()){
+            contactBook.get(key).stream().filter(person -> person.getFirstName().equals(nameToSearch)).
+                    collect(Collectors.toList()).forEach(Person-> System.out.println(Person.toString()));
+        }
     }
+
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program");
         AddressBookSystem contact = new AddressBookSystem();
         boolean isExit = false;
         while (!isExit) {
-            System.out.println("Enter your choice \n1.Add New Contact\n2.Edit Contact\n3.Delete Contact\n4.Show Person Contact\n5.Exit");
+            System.out.println("Enter your choice \n1.Add New Contact\n2.Edit Contact\n3.Delete Contact\n4.Show Person Contact" +
+                    "\n5.Search Person\n6.Exit");
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
@@ -149,6 +166,8 @@ public class AddressBookSystem {
                     contact.showPerson();
                     break;
                 case 5:
+                    contact.searchPersonInCity();
+                case 6:
                     isExit = true;
                     break;
                 default:
