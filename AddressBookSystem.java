@@ -108,14 +108,20 @@ public class AddressBookSystem {
                 personList.remove(i);
         }
         System.out.println("Person removed from Address book");
-
+    }
+    /*
+     *UC5
+     * Added show method to see multiple person contact list
+     */
+    public void showPerson(){
+        System.out.println(personList);
     }
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program");
         AddressBookSystem contact = new AddressBookSystem();
         boolean isExit = false;
         while (!isExit) {
-            System.out.println("Enter your choice \n1.Add New Contact\n2.Edit Contact\n3.Delete Contact\n4.Exit");
+            System.out.println("Enter your choice \n1.Add New Contact\n2.Edit Contact\n3.Delete Contact\n4.Show Person Contact\n5.Exit");
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
@@ -128,6 +134,9 @@ public class AddressBookSystem {
                     contact.deletePerson();
                     break;
                 case 4:
+                    contact.showPerson();
+                    break;
+                case 5:
                     isExit = true;
                     break;
                 default:
